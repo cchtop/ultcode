@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>終極密碼遊戲</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; text-align: center; }
+    input { font-size: 18px; padding: 6px; }
+    button { font-size: 18px; padding: 6px 12px; }
+    #result { margin-top: 20px; font-size: 20px; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>🎯 終極密碼遊戲</h1>
+  <p>請猜一個介於 <span id="range">1 和 100</span> 之間的數字</p>
+  <input type="number" id="guessInput" placeholder="輸入你的猜測">
+  <button onclick="checkGuess()">猜！</button>
+
+  <div id="result"></div>
+
+  <script>
+    let lowest = 1;
+    let highest = 100;
+    const answer = Math.floor(Math.random() * 100) + 1;
+
+    function checkGuess() {
+      const input = document.getElementById("guessInput").value;
+      const guess = parseInt(input);
+      const result = document.getElementById("result");
+
+      if (isNaN(guess) || guess < lowest || guess > highest) {
+        result.textContent = `請輸入 ${lowest} 到 ${highest} 之間的有效數字！`;
+        return;
+      }
+
+      if (guess === answer) {
+        result.textContent = "🎉 恭喜你猜對了！遊戲結束。";
+        document.querySelector("button").disabled = true;
+        return;
+      } else if (guess < answer) {
+        lowest = guess + 1;
+        result.textContent = `太小了！請猜 ${lowest} 到 ${highest} 之間的數字。`;
+      } else {
+        highest = guess - 1;
+        result.textContent = `太大了！請猜 ${lowest} 到 ${highest} 之間的數字。`;
+      }
+
+      document.getElementById("range").textContent = `${lowest} 和 ${highest}`;
+      document.getElementById("guessInput").value = "";
+    }
+  </script>
+</body>
+</html>
